@@ -353,8 +353,8 @@ jobs:
         name: UniGetUI-${{ matrix.name }}
         path: output/*
     timeout-minutes: 6
-    if: ${{ !cancelled() && (!cancelled() && (!cancelled() && (!cancelled() && (!cancelled()))))
-      }}
+    if: ${{ !cancelled() && (!cancelled() && (!cancelled() && (!cancelled() && (!cancelled()
+      && (!cancelled()))))) }}
   publish:
     name: Publish GitHub Release
     runs-on: self-hosted
@@ -362,7 +362,8 @@ jobs:
     - preflight
     - build-avalonia
     if: ${{ !cancelled() && (!cancelled() && (!cancelled() && (!cancelled() && (!cancelled()
-      && (fromJSON(needs.preflight.outputs.skip-publish) == false))))) }}
+      && (!cancelled() && (fromJSON(needs.preflight.outputs.skip-publish) == false))))))
+      }}
     environment: ${{ needs.preflight.outputs.package-env }}
     permissions:
       contents: write
@@ -534,8 +535,8 @@ jobs:
     - preflight
     - build-avalonia
     if: ${{ !cancelled() && (!cancelled() && (!cancelled() && (!cancelled() && (!cancelled()
-      && (always() && needs.build.result != 'cancelled' && needs.build-avalonia.result
-      != 'cancelled'))))) }}
+      && (!cancelled() && (always() && needs.build.result != 'cancelled' && needs.build-avalonia.result
+      != 'cancelled')))))) }}
     steps:
     - name: Download artifacts
       uses: actions/download-artifact@v8
